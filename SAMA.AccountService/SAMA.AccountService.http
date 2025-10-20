@@ -1,0 +1,6 @@
+@SAMA.AccountService_HostAddress = http://localhost:5111
+
+GET {{SAMA.AccountService_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

@@ -1,0 +1,41 @@
+version: '3.8'
+services:
+  sama-api-gateway:
+    build:
+      context: .
+      dockerfile: SAMA.API.Gateway/Dockerfile
+    ports:
+      - "7001:80"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - Kafka__BootstrapServers=kafka:9092
+
+  sama-account-service:
+    build:
+      context: .
+      dockerfile: SAMA.AccountService/Dockerfile
+    ports:
+      - "7002:80"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - Kafka__BootstrapServers=kafka:9092
+
+  sama-notification-service:
+    build:
+      context: .
+      dockerfile: SAMA.NotificationService/Dockerfile
+    ports:
+      - "7003:80"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - Kafka__BootstrapServers=kafka:9092
+
+  sama-monitoring-service:
+    build:
+      context: .
+      dockerfile: SAMA.MonitoringService/Dockerfile
+    ports:
+      - "7007:80"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - Kafka__BootstrapServers=kafka:9092

@@ -1,0 +1,6 @@
+@SAMA.BanService_HostAddress = http://localhost:5078
+
+GET {{SAMA.BanService_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

@@ -1,0 +1,6 @@
+@SAMA.CallbackService_HostAddress = http://localhost:5168
+
+GET {{SAMA.CallbackService_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

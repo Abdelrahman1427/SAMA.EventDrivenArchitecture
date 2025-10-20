@@ -1,0 +1,6 @@
+@SAMA.BlockService_HostAddress = http://localhost:5222
+
+GET {{SAMA.BlockService_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
