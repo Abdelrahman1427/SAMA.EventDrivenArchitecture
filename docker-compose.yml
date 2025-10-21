@@ -1,41 +1,21 @@
 version: '3.8'
 services:
-  sama-api-gateway:
-    build:
-      context: .
-      dockerfile: SAMA.API.Gateway/Dockerfile
-    ports:
-      - "7001:80"
+  zookeeper:
+    image: confluentinc/cp-zookeeper:latest
     environment:
-      - ASPNETCORE_ENVIRONMENT=Development
-      - Kafka__BootstrapServers=kafka:9092
+      ZOOKEEPER_CLIENT_PORT: 2181
+      ZOOKEEPER_TICK_TIME: 2000
+    ports:
+      - "2181:2181"
 
-  sama-account-service:
-    build:
-      context: .
-      dockerfile: SAMA.AccountService/Dockerfile
+  kafka:
+    image: confluentinc/cp-kafka:latest
+    depends_on:
+      - zookeeper
     ports:
-      - "7002:80"
+      - "9092:9092"
     environment:
-      - ASPNETCORE_ENVIRONMENT=Development
-      - Kafka__BootstrapServers=kafka:9092
-
-  sama-notification-service:
-    build:
-      context: .
-      dockerfile: SAMA.NotificationService/Dockerfile
-    ports:
-      - "7003:80"
-    environment:
-      - ASPNETCORE_ENVIRONMENT=Development
-      - Kafka__BootstrapServers=kafka:9092
-
-  sama-monitoring-service:
-    build:
-      context: .
-      dockerfile: SAMA.MonitoringService/Dockerfile
-    ports:
-      - "7007:80"
-    environment:
-      - ASPNETCORE_ENVIRONMENT=Development
-      - Kafka__BootstrapServers=kafka:9092
+      KAFKA_BROKER_ID: 1
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://localhost:9092
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
