@@ -1,0 +1,6 @@
+@SAMA.CoreBankingService_HostAddress = http://localhost:5055
+
+GET {{SAMA.CoreBankingService_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

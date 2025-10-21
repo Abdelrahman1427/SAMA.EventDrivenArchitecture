@@ -13,7 +13,6 @@ namespace SAMA.AccountService.Commands
         public decimal InitialBalance { get; set; }
         public string Currency { get; set; } = "SAR";
     }
-
     public class AccountCreatedEvent : DomainEvent
     {
         public string AccountNumber { get; set; } = string.Empty;
@@ -21,5 +20,6 @@ namespace SAMA.AccountService.Commands
         public decimal InitialBalance { get; set; }
         public string Currency { get; set; } = "SAR";
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
+        public string CoreBankingReference { get; set; } = string.Empty; // ⬅️ الجديد
     }
 }

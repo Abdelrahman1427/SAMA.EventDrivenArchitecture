@@ -9,16 +9,14 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-// Configure Kafka
+// إختر واحد فقط - أنصح بـ KafkaEventBus
 builder.Services.Configure<KafkaOptions>(builder.Configuration.GetSection("Kafka"));
 builder.Services.AddSingleton<IEventBus, KafkaEventBus>();
-// Use InMemoryEventBus for development
-builder.Services.AddSingleton<IEventBus, InMemoryEventBus>();
-builder.Services.AddScoped<CreateAccountHandler>();
 
-Console.WriteLine("🚀 Using InMemoryEventBus for development");
 // Register Handlers
 builder.Services.AddScoped<CreateAccountHandler>();
+
+Console.WriteLine("🚀 Using KafkaEventBus for AccountService");
 
 var app = builder.Build();
 
@@ -37,6 +35,7 @@ var eventBus = app.Services.GetRequiredService<IEventBus>();
 await eventBus.SubscribeAsync<CreateAccountCommand, CreateAccountHandler>();
 
 await eventBus.StartAsync();
+
 Console.WriteLine("✅ SAMA.AccountService is running on: https://localhost:5111");
 
 app.Run();

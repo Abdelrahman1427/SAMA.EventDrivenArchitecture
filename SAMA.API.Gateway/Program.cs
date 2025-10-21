@@ -8,11 +8,11 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddSingleton<IEventBus, InMemoryEventBus>();
-Console.WriteLine("🚀 Using InMemoryEventBus for development");
-// Configure Kafka
+// إختر واحد فقط - أنصح بـ KafkaEventBus
 builder.Services.Configure<KafkaOptions>(builder.Configuration.GetSection("Kafka"));
 builder.Services.AddSingleton<IEventBus, KafkaEventBus>();
+
+Console.WriteLine("🚀 Using KafkaEventBus for API Gateway");
 
 var app = builder.Build();
 
@@ -30,6 +30,7 @@ app.MapControllers();
 // Start Event Bus
 var eventBus = app.Services.GetRequiredService<IEventBus>();
 await eventBus.StartAsync();
+
 Console.WriteLine("✅ SAMA.API.Gateway is running on: https://localhost:7001");
 
 app.Run();

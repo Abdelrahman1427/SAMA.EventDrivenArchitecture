@@ -87,10 +87,31 @@ namespace SAMA.EventBus.Kafka
 
         public async Task StartAsync(CancellationToken cancellationToken = default)
         {
-            var topics = _eventTypes.Keys.ToArray();
-            _consumer.Subscribe(topics);
+            try
+            {
+                _logger.LogInformation("Starting Kafka Event Bus...");
 
-            _ = Task.Run(async () => await ConsumeEventsAsync(cancellationToken), cancellationToken);
+                await Task.Delay(5000, cancellationToken);
+
+                var topics = _eventTypes.Keys.ToArray();
+
+                if (topics.Length == 0)
+                {
+                    _logger.LogWarning("No topics to subscribe to");
+                    return;
+                }
+
+                _logger.LogInformation("Subscribing to topics: {Topics}", string.Join(", ", topics));
+                _consumer.Subscribe(topics);
+
+                _ = Task.Run(async () => await ConsumeEventsAsync(cancellationToken), cancellationToken);
+
+                _logger.LogInformation("Kafka Event Bus started successfully");
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Failed to start Kafka Event Bus");
+            }
         }
 
         public Task StopAsync(CancellationToken cancellationToken = default)
@@ -154,5 +175,11 @@ namespace SAMA.EventBus.Kafka
     {
         public string BootstrapServers { get; set; } = "localhost:9092";
         public string GroupId { get; set; } = "sama-group";
+        public string AutoOffsetReset { get; set; } = "Earliest";
+        public bool EnableAutoCommit { get; set; } = false;
+        public bool AllowAutoCreateTopics { get; set; } = true;
+        public int MessageTimeoutMs { get; set; } = 5000;
+        public int RequestTimeoutMs { get; set; } = 5000;
+        public int SessionTimeoutMs { get; set; } = 6000;
     }
 }

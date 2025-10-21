@@ -34,6 +34,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		docker-compose.yml = docker-compose.yml
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SAMA.CoreBankingService", "SAMA.CoreBankingService\SAMA.CoreBankingService.csproj", "{FDE6C0CC-2A21-40F9-8B12-B31A94942443}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -92,6 +94,10 @@ Global
 		{25593AC7-F3DF-45EC-B1D4-4CA65DF4B244}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{25593AC7-F3DF-45EC-B1D4-4CA65DF4B244}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{25593AC7-F3DF-45EC-B1D4-4CA65DF4B244}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FDE6C0CC-2A21-40F9-8B12-B31A94942443}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FDE6C0CC-2A21-40F9-8B12-B31A94942443}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FDE6C0CC-2A21-40F9-8B12-B31A94942443}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FDE6C0CC-2A21-40F9-8B12-B31A94942443}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

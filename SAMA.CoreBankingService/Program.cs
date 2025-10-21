@@ -1,7 +1,8 @@
 ﻿using SAMA.AccountService.Commands;
+using SAMA.AccountService.Events;
+using SAMA.AccountService.Handlers;
 using SAMA.EventBus;
 using SAMA.EventBus.Kafka;
-using SAMA.NotificationService.Handlers;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -9,14 +10,13 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-// إختر واحد فقط - أنصح بـ KafkaEventBus
+// Configure Kafka
 builder.Services.Configure<KafkaOptions>(builder.Configuration.GetSection("Kafka"));
 builder.Services.AddSingleton<IEventBus, KafkaEventBus>();
 
 // Register Handlers
-builder.Services.AddScoped<AccountCreatedEventHandler>();
-
-Console.WriteLine("🚀 Using KafkaEventBus for NotificationService");
+builder.Services.AddScoped<CreateAccountHandler>();
+builder.Services.AddScoped<CoreBankingResponseHandler>(); // ⬅️ الجديد
 
 var app = builder.Build();
 
@@ -32,10 +32,12 @@ app.MapControllers();
 
 // Subscribe to events
 var eventBus = app.Services.GetRequiredService<IEventBus>();
-await eventBus.SubscribeAsync<AccountCreatedEvent, AccountCreatedEventHandler>();
+
+// الاشتراك في الأحداث القديمة والجديدة
+await eventBus.SubscribeAsync<CreateAccountCommand, CreateAccountHandler>();
+await eventBus.SubscribeAsync<CoreBankingProcessedEvent, CoreBankingResponseHandler>(); // ⬅️ الجديد
 
 await eventBus.StartAsync();
-
-Console.WriteLine("✅ SAMA.NotificationService is running");
+Console.WriteLine("✅ SAMA.AccountService is running on: https://localhost:5111");
 
 app.Run();
